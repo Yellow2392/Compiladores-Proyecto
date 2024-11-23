@@ -133,6 +133,7 @@ FunDec* Parser::parseFunDec() {
         exit(1);
     }
     string fname = previous->text;
+    bool flagIsMain = fname == "main";
     if (!match(Token::PI)) {
         cout << "Error: se esperaba un '(' después del nombre de la función." << endl;
         exit(1);
@@ -141,52 +142,80 @@ FunDec* Parser::parseFunDec() {
     list<string> vars;
     if (!check(Token::PD)) {
         //cambia sintaxis
-      if (!match(Token::ID)) {
-        cout << "Error: se esperaba un tipo después del '('." << endl;
-        exit(1);
-      }
-      types.push_back(previous->text);
-      if (!match(Token::ID)) {
-        cout << "Error: se esperaba un identificador después del tipo." << endl;
-        exit(1);
-      }
-      vars.push_back(previous->text);
-      while(match(Token::COMA)) {
-        if(!match(Token::ID)) {
-          cout << "Error: se esperaba un tipo después de ','." << endl;
-          exit(1);
-        }
-        types.push_back(previous->text);
         if (!match(Token::ID)) {
-            cout << "Error: se esperaba un identificador después del tipo." << endl;
+            cout << "Error: se esperaba un ID después del '('." << endl;
             exit(1);
         }
         vars.push_back(previous->text);
-      }
+        if (!match(Token::TWODOT)) {
+            cout << "Error: se esperaba ':' después del ID." << endl;
+            exit(1);
+        }
+        if (!match(Token::ID)) {
+            cout << "Error: se esperaba el tipo de la variable después de ':'." << endl;
+            exit(1);
+        }
+        types.push_back(previous->text);
+        while(match(Token::COMA)) {
+            if(!match(Token::ID)) {
+            cout << "Error: se esperaba un ID después de ','." << endl;
+            exit(1);
+            }
+            vars.push_back(previous->text);
+            if (!match(Token::TWODOT)) {
+                cout << "Error: se esperaba ':' después del ID." << endl;
+                exit(1);
+            }
+            if (!match(Token::ID)) {
+                cout << "Error: se esperaba el tipo de la variable después de ':'." << endl;
+                exit(1);
+            }
+            types.push_back(previous->text);
+        }
     }
     if (!match(Token::PD)) {
         cout << "Error: se esperaba un ')' después de la lista de argumentos." << endl;
         exit(1);
     }
-    if (!match(Token::TWODOT)) {
-        cout << "Error: se esperaba un ':' después del parentesis derecho." << endl;
-        exit(1);
+    string rtype = "void"; //checkear esto
+    if(!flagIsMain){
+        if (!match(Token::TWODOT)) {
+            cout << "Error: se esperaba un ':' después del parentesis derecho." << endl;
+            exit(1);
+        }
+        if (!match(Token::ID)) {
+            cout << "Error: se esperaba el tipo de retorno de la función" << endl;
+            exit(1);
+        }
+        rtype = previous->text;
     }
-    if (!match(Token::ID)) {
-        cout << "Error: se esperaba un tipo 'fun'." << endl;
-        exit(1);
-    }
-    string rtype = previous->text;
+    
     if (!match(Token::LLI)) {
         cout << "Error: se esperaba un '{' después de la lista de argumentos." << endl;
         exit(1);
     }
     body = parseBody();
-    if (!match(Token::LLD)){
-        cout << "Error: se esperaba '}' al final de la declaración." << endl;
-        exit(1);
+    if(!flagIsMain){
+        if (!match(Token::RETURN)){
+            cout << "Error: se esperaba el return de la función." << endl;
+            exit(1);
+        }
+        Exp* e;
+        e = parseCExp();
+        if (!match(Token::LLD)){
+            cout << "Error: se esperaba '}' al final de la declaración." << endl;
+            exit(1);
+        }
+        fd = new FunDec(fname, types, vars, rtype, body,e);
     }
-    fd = new FunDec(fname, types, vars, rtype, body);
+    else{
+        if (!match(Token::LLD)){
+            cout << "Error: se esperaba '}' al final de la declaración." << endl;
+            exit(1);
+        }
+        fd = new FunDec(fname, types, vars, rtype, body);
+    }
+    
   }
   return fd;
 }
