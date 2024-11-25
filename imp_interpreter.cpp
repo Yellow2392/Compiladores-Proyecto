@@ -85,6 +85,10 @@ void WhileStatement::accept(TypeVisitor* v) {
     return v->visit(this);
 }
 
+void DoWhileStatement::accept(TypeVisitor* v) {
+    return v->visit(this);
+}
+
 void ReturnStatement::accept(TypeVisitor* v) {
     return v->visit(this);
 }

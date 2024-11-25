@@ -13,6 +13,7 @@ class AssignStatement;
 class PrintStatement;
 class IfStatement;
 class WhileStatement;
+class DoWhileStatement;
 class ForStatement;
 class VarDec;
 class VarDecList;

@@ -184,7 +184,7 @@ void PrintVisitor::visit(WhileStatement* stm){
     cout << "}";
 }
 
-void PrintVisitor::visit(WhileStatement* stm){
+void PrintVisitor::visit(DoWhileStatement* stm){
     cout << "do{" <<endl;
     stm->b->accept(this);
     printIndent();
