@@ -371,7 +371,7 @@ Stm* Parser::parseStatement() {
             cout << "Error: se esperaba ')' después de la expresión." << endl;
             exit(1);
         }
-        s = new WhileStatement(e, tb);
+        s = new DoWhileStatement(e, tb);
     }
     else if(match(Token::FOR)){
         if(!match(Token::PI)){

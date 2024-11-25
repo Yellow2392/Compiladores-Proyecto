@@ -121,6 +121,10 @@ void WhileStatement::accept(ImpValueVisitor* v) {
     return v->visit(this);
 }
 
+void DoWhileStatement::accept(ImpValueVisitor* v) {
+    return v->visit(this);
+}
+
 void ReturnStatement::accept(ImpValueVisitor* v) {
     return v->visit(this);
 }
@@ -279,6 +283,17 @@ void ImpInterpreter::visit(IfStatement* s) {
 }
 
 void ImpInterpreter::visit(WhileStatement* s) {
+    ImpValue v = s->condition->accept(this);
+    if (v.type != TBOOL) {
+        cout << "Type error en WHILE: esperaba bool en condicional" << endl;
+        exit(0);
+    }
+    while(s->condition->accept(this).bool_value){
+        s->b->accept(this);
+    }
+}
+
+void ImpInterpreter::visit(DoWhileStatement* s) {
     ImpValue v = s->condition->accept(this);
     if (v.type != TBOOL) {
         cout << "Type error en WHILE: esperaba bool en condicional" << endl;

@@ -196,6 +196,19 @@ void ImpCodeGen::visit(WhileStatement* s) {
 
   return ;
 }
+void ImpCodeGen::visit(DoWhileStatement* s) {
+  string l1 = next_label();
+  string l2 = next_label();
+
+  codegen(l1,"skip");
+  s->condition->accept(this);
+  codegen(nolabel,"jmpz",l2);
+  s->b->accept(this);
+  codegen(nolabel,"goto",l1);
+  codegen(l2,"skip");
+
+  return ;
+}
 
 void ImpCodeGen::visit(ReturnStatement* s) {
   //nuevo

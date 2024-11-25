@@ -146,6 +146,17 @@ public:
     ~WhileStatement();
 };
 
+class DoWhileStatement: public Stm{
+    public:
+    Exp* condition;
+    Body* b;
+    DoWhileStatement(Exp* condition, Body* b);
+    int accept(Visitor* visitor);
+    void accept(ImpValueVisitor* v);
+    void accept(TypeVisitor* v);
+    ~DoWhileStatement();
+};
+
 class ForStatement : public Stm {
 public:
     std::string id;
@@ -241,6 +252,7 @@ public:
   void accept(TypeVisitor* v);
   ~ReturnStatement();
 };
+
 
 //Un programa no tiene statementlist
 // No puede haber statements sueltos, siempre deben estar dentro de un body
