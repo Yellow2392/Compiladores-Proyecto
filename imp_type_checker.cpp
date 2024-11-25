@@ -186,7 +186,17 @@ void ImpTypeChecker::visit(IfStatement* s) {
 
 void ImpTypeChecker::visit(WhileStatement* s) {
   if (!s->condition->accept(this).match(booltype)) {
-    cout << "Expresion conditional en IF debe de ser bool" << endl;
+    cout << "Expresion conditional en WHILE debe de ser bool" << endl;
+    exit(0);
+  }
+  sp_decr(1);
+  s->b->accept(this);
+ return;
+}
+
+void ImpTypeChecker::visit(DoWhileStatement* s) {
+  if (!s->condition->accept(this).match(booltype)) {
+    cout << "Expresion conditional en WHILE debe de ser bool" << endl;
     exit(0);
   }
   sp_decr(1);

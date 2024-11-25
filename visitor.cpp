@@ -47,6 +47,12 @@ int WhileStatement::accept(Visitor* visitor) {
     visitor->visit(this);
     return 0;
 }
+
+int DoWhileStatement::accept(Visitor* visitor) {
+    visitor->visit(this);
+    return 0;
+}
+
 int ForStatement::accept(Visitor* visitor) {
     visitor->visit(this);
     return 0;
@@ -176,6 +182,16 @@ void PrintVisitor::visit(WhileStatement* stm){
     stm->b->accept(this);
     printIndent();
     cout << "}";
+}
+
+void PrintVisitor::visit(WhileStatement* stm){
+    cout << "do{" <<endl;
+    stm->b->accept(this);
+    printIndent();
+    cout << "}";
+    cout << "while (";
+    stm->condition->accept(this);
+    cout << ")";
 }
 
 void PrintVisitor::visit(ForStatement* stm){

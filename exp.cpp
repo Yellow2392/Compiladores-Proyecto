@@ -46,6 +46,13 @@ WhileStatement::~WhileStatement() {
     delete condition;
     delete b;
 }
+
+DoWhileStatement::DoWhileStatement(Exp* c, Body* t): condition(c), b(t) {}
+DoWhileStatement::~DoWhileStatement() {
+    delete condition;
+    delete b;
+}
+
 ForStatement::ForStatement(std::string id, Exp* s, Exp* end, Body* b): id(id), start(s), end(end), b(b) {}
 ForStatement::~ForStatement() {
     delete start;
@@ -83,6 +90,8 @@ Body::~Body() {
 }
 
 FunDec::FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* b): fname(fname), types(types), vars(vars), rtype(rtype), body(b) {}
+FunDec::FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* b, Exp* e): fname(fname), types(types), vars(vars), rtype(rtype), body(b), e(e) {}
+
 FunDec::~FunDec() {
     delete body;
 }
