@@ -50,47 +50,55 @@ Parser::Parser(Scanner* sc):scanner(sc) {
 
 VarDec* Parser::parseVarDec() {
     VarDec* vd = NULL;
-    if (match(Token::VAR)) {
-        if (!match(Token::ID)) {
-            cout << "Error: se esperaba un identificador después de 'var'." << endl;
-            exit(1);
-        }
-        if (!match(Token::TWODOT)) {
-            cout << "Error: se esperaba un ':' después de 'id'." << endl;
-            exit(1);
-        }
-        string type = previous->text;
+    if (match(Token::VAR)) { //considera usar diferenciacion para 'val' y 'var'
         list<string> ids;
         if (!match(Token::ID)) {
             cout << "Error: se esperaba un identificador después de 'var'." << endl;
             exit(1);
         }
         ids.push_back(previous->text);
-        if (!match(Token::PC)) {
-            cout << "Error: se esperaba un ';' al final de la declaración." << endl;
+        if (!match(Token::TWODOT)) {
+            cout << "Error: se esperaba un ':' después de 'id'." << endl;
             exit(1);
+        }
+        
+        if (!match(Token::ID)) {
+            cout << "Error: se esperaba un identificador después de 'var'." << endl;
+            exit(1);
+        }
+        string type = previous->text;
+        //if (!match(Token::PC)) {
+        //    cout << "Error: se esperaba un ';' al final de la declaración." << endl;
+        //    exit(1);
+        //}
+        if (check(Token::PC)) {
+            match(Token::PC); // Consumir ';' si está presente
         }
         vd = new VarDec(type, ids);
     }
     else if (match(Token::VAL)) { //considera usar diferenciacion para 'val' y 'var'
-        if (!match(Token::ID)) {
-            cout << "Error: se esperaba un identificador después de 'var'." << endl;
-            exit(1);
-        }
-        if (!match(Token::TWODOT)) {
-            cout << "Error: se esperaba un ':' después de 'id'." << endl;
-            exit(1);
-        }
-        string type = previous->text;
         list<string> ids;
         if (!match(Token::ID)) {
             cout << "Error: se esperaba un identificador después de 'var'." << endl;
             exit(1);
         }
         ids.push_back(previous->text);
-        if (!match(Token::PC)) {
-            cout << "Error: se esperaba un ';' al final de la declaración." << endl;
+        if (!match(Token::TWODOT)) {
+            cout << "Error: se esperaba un ':' después de 'id'." << endl;
             exit(1);
+        }
+        
+        if (!match(Token::ID)) {
+            cout << "Error: se esperaba un identificador después de 'var'." << endl;
+            exit(1);
+        }
+        string type = previous->text;
+        //if (!match(Token::PC)) {
+        //    cout << "Error: se esperaba un ';' al final de la declaración." << endl;
+        //    exit(1);
+        //}
+        if (check(Token::PC)) {
+            match(Token::PC); // Consumir ';' si está presente
         }
         vd = new VarDec(type, ids);
     }
@@ -139,6 +147,7 @@ FunDec* Parser::parseFunDec() {
     }
     list<string> types;
     list<string> vars;
+    string rtype;
     if (!check(Token::PD)) {
         //cambia sintaxis
       if (!match(Token::ID)) {
@@ -168,15 +177,21 @@ FunDec* Parser::parseFunDec() {
         cout << "Error: se esperaba un ')' después de la lista de argumentos." << endl;
         exit(1);
     }
-    if (!match(Token::TWODOT)) {
-        cout << "Error: se esperaba un ':' después del parentesis derecho." << endl;
-        exit(1);
+    if (fname != "main") {
+        if (!match(Token::TWODOT)) {
+            cout << "Error: se esperaba un ':' después del paréntesis derecho." << endl;
+            exit(1);
+        }
+        if (!match(Token::ID)) {
+            cout << "Error: se esperaba un tipo 'fun'." << endl;
+            exit(1);
+        }
+        rtype = previous->text;
+    } 
+    else {
+        rtype = "Void"; // Asignamos Void como tipo predeterminado para main
     }
-    if (!match(Token::ID)) {
-        cout << "Error: se esperaba un tipo 'fun'." << endl;
-        exit(1);
-    }
-    string rtype = previous->text;
+
     if (!match(Token::LLI)) {
         cout << "Error: se esperaba un '{' después de la lista de argumentos." << endl;
         exit(1);

@@ -1,11 +1,11 @@
 #include"imp_type_checker.hh"
 
 ImpTypeChecker::ImpTypeChecker():inttype(),booltype(),voidtype() {
-  inttype.set_basic_type("int");
-  booltype.set_basic_type("bool");
-  voidtype.set_basic_type("void");
+  inttype.set_basic_type("Int");
+  booltype.set_basic_type("Bool");
+  voidtype.set_basic_type("Void");
   list<string> noparams;
-  maintype.set_fun_type(noparams,"void");
+  maintype.set_fun_type(noparams,"Void");
   has_main = false;
 }
 

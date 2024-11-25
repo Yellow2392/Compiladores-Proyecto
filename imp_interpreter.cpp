@@ -171,20 +171,27 @@ void FCallStatement::accept(ImpValueVisitor* v) {
 void ImpInterpreter::visit(Program* p) {
     env.add_level();
     fdecs.add_level();
+
     p->vardecs->accept(this);
     p->fundecs->accept(this);
+
     if (!fdecs.check("main")) {
-        cout << "Error: No se encontro funcion main" << endl;
-        exit(0);
-    }
-    FunDec* main_dec = fdecs.lookup("main");
-    retcall = false;
-    main_dec->body->accept(this);
-    if (main_dec->rtype != "void" && !retcall) {
-        cout << "Error: Funcion main no ejecuto RETURN" << endl;
+        cout << "Error: No se encontró función main" << endl;
         exit(0);
     }
 
+    FunDec* main_dec = fdecs.lookup("main");
+
+    retcall = false;
+    main_dec->body->accept(this);
+
+    if (main_dec->fname == "main") {
+        return;
+    }
+    if (main_dec->rtype != "void" && !retcall) {
+        cout << "Error: La función main no ejecutó RETURN" << endl;
+        exit(0);
+    }
 }
 
 void ImpInterpreter::visit(Body* b) {
@@ -320,7 +327,7 @@ ImpValue ImpInterpreter::visit(BinaryExp* e) {
     ImpValue result;
     ImpValue v1 = e->left->accept(this);
     ImpValue v2 = e->right->accept(this);
-    if (v1.type != TINT || v2.type != TINT) {
+    if (v1.type != TINT || v2.type != TINT || v1.type != TLONG || v2.type != TLONG) {
         cout << "Error de tipos: operandos en operacion binaria tienen que ser "
                 "enteros"
              << endl;
@@ -363,6 +370,10 @@ ImpValue ImpInterpreter::visit(BinaryExp* e) {
     }
     if (type == TINT)
         result.int_value = iv;
+    if (type == TLONG){
+        type = TINT;
+        result.int_value = iv;
+    }
     else
         result.bool_value = bv;
     result.type = type;
