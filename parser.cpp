@@ -398,6 +398,7 @@ Stm* Parser::parseStatement() {
             exit(1);
         }
         Exp* start = parseCExp();
+        //cout << previous->text;
         if (!match(Token::DOTS)) {
             cout << "Error: se esperaba '..' después de la expresión." << endl;
             exit(1);

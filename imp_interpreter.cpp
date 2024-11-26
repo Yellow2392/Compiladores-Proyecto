@@ -325,20 +325,25 @@ void ImpInterpreter::visit(ReturnStatement* s) {
 void ImpInterpreter::visit(ForStatement* s) {
     env.add_level();
     ImpValue start = s->start->accept(this);
-    env.add_var(s->id, start);
     ImpValue end = s->end->accept(this);
     //ImpValue paso = s->step->accept(this);
     if (start.type != TINT || end.type != TINT) {
         cout << "Error de tipos:  tienen que ser enteros" << endl;
         exit(0);
     }
+    env.add_var(s->id, start);
+
     int a = start.int_value;
     while(a<end.int_value){
         s->b ->accept(this);
-        start.int_value = start.int_value + 1;
-        env.update(s->id, start);
         a += 1;
+        start.int_value = a;
+        if (!env.update(s->id, start)) {
+            cout << "Error: no se pudo actualizar el iterador" << endl;
+            exit(0);
+        }
     }
+    env.remove_level();
     return;
 }
 

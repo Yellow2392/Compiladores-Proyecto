@@ -125,6 +125,7 @@ Token* Scanner::nextToken() {
                     cout << "No debería llegar acá" << endl;
                     token = new Token(Token::ERR, c);
                 }
+                break;
             case ':': token = new Token(Token::TWODOT, c); break;
             default:
                 cout << "No debería llegar acá" << endl;

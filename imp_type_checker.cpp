@@ -221,15 +221,15 @@ void ImpTypeChecker::visit(ReturnStatement* s) {
 }
 
 void ImpTypeChecker::visit(ForStatement* s) {
-  if(!s->start->accept(this).match(inttype) || !s->end->accept(this).match(inttype)) {
-    cout << "Expresiones en for deben de ser int" << endl;
-    exit(0);
-  }
-  sp_decr(3);
-  s->b->accept(this);
-  return;
+    if (!s->start->accept(this).match(inttype) || !s->end->accept(this).match(inttype)) {
+        cout << "Error de tipos: las expresiones en el for deben ser de tipo int" << endl;
+        exit(0);
+    }
+    env.add_level();
+    env.add_var(s->id, inttype);
+    s->b->accept(this);
+    env.remove_level();
 }
-
 
 ImpType ImpTypeChecker::visit(BinaryExp* e) {
   ImpType t1 = e->left->accept(this);
