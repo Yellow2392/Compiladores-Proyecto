@@ -485,10 +485,10 @@ ImpValue ImpInterpreter::visit(FCallExp* e) {
     retcall = false;
     fdec->body->accept(this);
 
-    if (!retcall) {
-        cout << "Error: Funcion main no ejecuto RETURN" << endl;
-        exit(0);
-    }
+    //if (!retcall) {
+    //    cout << "Error: Funcion main no ejecuto RETURN" << endl;
+    //    exit(0);
+    //}
     retcall = false;
     env.remove_level();
     tt = ImpValue::get_basic_type(fdec->rtype);

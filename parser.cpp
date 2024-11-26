@@ -118,10 +118,22 @@ VarDecList* Parser::parseVarDecList() {
 
 StatementList* Parser::parseStatementList() {
     StatementList* sl = new StatementList();
-    sl->add(parseStatement());
-    while (match(Token::PC)) {
+    //sl->add(parseStatement());
+    //while (match(Token::PC)) {
+    //    sl->add(parseStatement());
+    //}
+
+    if (check(Token::ID) || check(Token::PRINT) || check(Token::FOR) || 
+    check(Token::WHILE) || check(Token::DO) || check(Token::IF)) /* u otros tokens relevantes */ {
+        // Si hay un statement, lo procesamos y lo agregamos a la lista
         sl->add(parseStatement());
+
+        // Después seguimos parseando si encontramos un ';'
+        while (match(Token::PC)) {
+            sl->add(parseStatement());
+        }
     }
+
     return sl;
 }
 
@@ -262,7 +274,6 @@ Stm* Parser::parseStatement() {
     Exp* e = NULL;
     Body* tb = NULL; //true case
     Body* fb = NULL; //false case
-
     if (current == NULL) {
         cout << "Error: Token actual es NULL" << endl;
         exit(1);
@@ -419,10 +430,10 @@ Stm* Parser::parseStatement() {
         }
         s = new ForStatement(id, start, end, tb);
     }
-    else if (match(Token::RETURN)){
-        e = parseCExp();
-        s = new ReturnStatement(e); //Si es null, no hay problema
-    }
+    //else if (match(Token::RETURN)){
+    //    e = parseCExp();
+    //    s = new ReturnStatement(e); //Si es null, no hay problema
+    //}
     else {
         cout << "Error: Se esperaba un identificador o 'print', pero se encontró: " << *current << endl;
         exit(1);
