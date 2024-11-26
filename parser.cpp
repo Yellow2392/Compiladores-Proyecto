@@ -221,7 +221,6 @@ FunDec* Parser::parseFunDec() {
     }
     else{
         if (!match(Token::LLD)){
-            cout << previous->text;
             cout << "Error: se esperaba '}' al final de la declaración." << endl;
             exit(1);
         }
@@ -320,7 +319,10 @@ Stm* Parser::parseStatement() {
         }
         
         tb = parseBody();
-
+        if (!match(Token::LLD)) { //ENDIF
+            cout << "Error: se esperaba '}' después de la expresión." << endl;
+            exit(1);
+        }
         if (match(Token::ELSE)) {
             if (!match(Token::LLI)) {
             cout << "Error: se esperaba '{' después de la expresión." << endl;
@@ -331,10 +333,6 @@ Stm* Parser::parseStatement() {
             cout << "Error: se esperaba '}' después de la expresión." << endl;
             exit(1);
             }
-        }
-        if (!match(Token::LLD)) { //ENDIF
-            cout << "Error: se esperaba '}' después de la expresión." << endl;
-            exit(1);
         }
         s = new IfStatement(e, tb, fb);
 

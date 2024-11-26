@@ -346,7 +346,7 @@ ImpValue ImpInterpreter::visit(BinaryExp* e) {
     ImpValue result;
     ImpValue v1 = e->left->accept(this);
     ImpValue v2 = e->right->accept(this);
-    if (v1.type != TINT || v2.type != TINT || v1.type != TLONG || v2.type != TLONG) {
+    if (v1.type != TINT && v1.type != TLONG && v2.type != TINT && v2.type != TLONG) {
         cout << "Error de tipos: operandos en operacion binaria tienen que ser "
                 "enteros"
              << endl;
