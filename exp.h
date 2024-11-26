@@ -8,7 +8,7 @@
 #include "visitor.h"
 #include "type_visitor.h"
 using namespace std;
-enum BinaryOp { PLUS_OP, MINUS_OP, MUL_OP, DIV_OP,LT_OP, LE_OP, EQ_OP };
+enum BinaryOp { PLUS_OP, MINUS_OP, MUL_OP, DIV_OP,LT_OP, LE_OP, EQ_OP, GT_OP, GE_OP, NEQ_OP};
 
 class Body;
 class ImpValueVisitor;

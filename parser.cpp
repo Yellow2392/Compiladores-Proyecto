@@ -221,6 +221,7 @@ FunDec* Parser::parseFunDec() {
     }
     else{
         if (!match(Token::LLD)){
+            cout << previous->text;
             cout << "Error: se esperaba '}' al final de la declaración." << endl;
             exit(1);
         }
@@ -432,7 +433,7 @@ Stm* Parser::parseStatement() {
 
 Exp* Parser::parseCExp(){
     Exp* left = parseExpression();
-    if (match(Token::LT) || match(Token::LE) || match(Token::EQ)){
+    if (match(Token::LT) || match(Token::LE) || match(Token::EQ) || match(Token::GT) || match(Token::GE) || match(Token::NEQ)){
         BinaryOp op;
         if (previous->type == Token::LT){
             op = LT_OP;
@@ -442,6 +443,15 @@ Exp* Parser::parseCExp(){
         }
         else if (previous->type == Token::EQ){
             op = EQ_OP;
+        }
+        else if (previous->type == Token::NEQ){
+            op = NEQ_OP;
+        }
+        else if (previous->type == Token::GT){
+            op = GT_OP;
+        }
+        else if (previous->type == Token::GE){
+            op = GE_OP;
         }
         Exp* right = parseExpression();
         left = new BinaryExp(left, right, op);

@@ -248,6 +248,9 @@ ImpType ImpTypeChecker::visit(BinaryExp* e) {
     break;
   case LT_OP: 
   case LE_OP:
+  case GT_OP: 
+  case GE_OP:
+  case NEQ_OP:
   case EQ_OP:
     result = booltype;
     break;

@@ -386,6 +386,18 @@ ImpValue ImpInterpreter::visit(BinaryExp* e) {
             bv = (iv1 == iv2) ? 1 : 0;
             type = TBOOL;
             break;
+        case GT_OP:
+            bv = (iv1 > iv2) ? 1 : 0;
+            type = TBOOL;
+            break;
+        case GE_OP:
+            bv = (iv1 >= iv2) ? 1 : 0;
+            type = TBOOL;
+            break;
+        case NEQ_OP:
+            bv = (iv1 != iv2) ? 1 : 0;
+            type = TBOOL;
+            break;
     }
     if (type == TINT)
         result.int_value = iv;

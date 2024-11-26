@@ -265,6 +265,9 @@ int ImpCodeGen::visit(BinaryExp* e) {
   case LT_OP:  op = "lt"; break;
   case LE_OP: op = "le"; break;
   case EQ_OP:  op = "eq"; break;
+  case GT_OP:  op = "gt"; break;
+  case GE_OP: op = "ge"; break;
+  case NEQ_OP:  op = "neq"; break;
   default: cout << "binop " << Exp::binopToChar(e->op) << " not implemented" << endl;
   }
   codegen(nolabel, op);
