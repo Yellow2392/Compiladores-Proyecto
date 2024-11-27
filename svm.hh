@@ -1,7 +1,7 @@
 #ifndef SVMHH
 #define SVMHH
 
-#define TAM_MEMORIA 5000
+#define TAM_MEMORIA 2000000
 
 #include <string>
 #include <list>
