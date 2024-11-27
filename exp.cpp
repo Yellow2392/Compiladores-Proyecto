@@ -90,7 +90,7 @@ Body::~Body() {
 }
 
 FunDec::FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* b): fname(fname), types(types), vars(vars), rtype(rtype), body(b) {}
-FunDec::FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* b, Exp* e): fname(fname), types(types), vars(vars), rtype(rtype), body(b), e(e) {}
+//FunDec::FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* b, Exp* e): fname(fname), types(types), vars(vars), rtype(rtype), body(b), e(e) {}
 
 FunDec::~FunDec() {
     delete body;

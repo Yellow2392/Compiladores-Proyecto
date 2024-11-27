@@ -124,8 +124,8 @@ StatementList* Parser::parseStatementList() {
     //}
 
     if (check(Token::ID) || check(Token::PRINT) || check(Token::FOR) || 
-    check(Token::WHILE) || check(Token::DO) || check(Token::IF)) /* u otros tokens relevantes */ {
-        // Si hay un statement, lo procesamos y lo agregamos a la lista
+    check(Token::WHILE) || check(Token::DO) || check(Token::IF) || check(Token::RETURN) ) /* u otros tokens relevantes */ {
+//        // Si hay un statement, lo procesamos y lo agregamos a la lista
         sl->add(parseStatement());
 
         // Después seguimos parseando si encontramos un ';'
@@ -133,6 +133,7 @@ StatementList* Parser::parseStatementList() {
             sl->add(parseStatement());
         }
     }
+    
 
     return sl;
 }
@@ -218,27 +219,13 @@ FunDec* Parser::parseFunDec() {
         exit(1);
     }
     body = parseBody();
-    if(!flagIsMain){
-        if (!match(Token::RETURN)){
-            cout << "Error: se esperaba el return de la función." << endl;
-            exit(1);
-        }
-        Exp* e;
-        e = parseCExp();
-        if (!match(Token::LLD)){
-            cout << "Error: se esperaba '}' al final de la declaración." << endl;
-            exit(1);
-        }
-        fd = new FunDec(fname, types, vars, rtype, body,e);
+    cout<<previous->text<<endl;
+    if (!match(Token::LLD)){
+        cout<<previous->text<<endl;
+        cout << "Error: se esperaba '}' al final de la declaración." << endl;
+        exit(1);
     }
-    else{
-        if (!match(Token::LLD)){
-            cout << "Error: se esperaba '}' al final de la declaración." << endl;
-            exit(1);
-        }
-        fd = new FunDec(fname, types, vars, rtype, body);
-    }
-    
+    fd = new FunDec(fname, types, vars, rtype, body);
   }
   return fd;
 }
@@ -430,10 +417,10 @@ Stm* Parser::parseStatement() {
         }
         s = new ForStatement(id, start, end, tb);
     }
-    //else if (match(Token::RETURN)){
-    //    e = parseCExp();
-    //    s = new ReturnStatement(e); //Si es null, no hay problema
-    //}
+    else if (match(Token::RETURN)){
+        e = parseCExp();
+        s = new ReturnStatement(e); //Si es null, no hay problema
+    }
     else {
         cout << "Error: Se esperaba un identificador o 'print', pero se encontró: " << *current << endl;
         exit(1);

@@ -406,7 +406,7 @@ ImpValue ImpInterpreter::visit(BinaryExp* e) {
     }
     if (type == TINT)
         result.int_value = iv;
-    if (type == TLONG){
+    else if (type == TLONG){
         type = TINT;
         result.int_value = iv;
     }
