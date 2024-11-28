@@ -208,7 +208,9 @@ void SVM::error_svm(string mensaje) {
 }
 
 bool SVM::verificar_memoria(int direccion) {
-  if (direccion > sp) error_svm("Acceso a memoria fuera de la memoria asignada");
+  if (direccion > sp) { 
+    error_svm("Acceso a memoria fuera de la memoria asignada");
+  }
   if (direccion <= 0) {
     cout << "Inválido: " << direccion << endl;
     error_svm("Acceso a memoria: dirección inválida");

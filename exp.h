@@ -223,9 +223,7 @@ public:
   list<string> vars;
   list<string> types;
   Body* body;
-  //Exp* e; //return cexp
   FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* body);
-  //FunDec(string fname, list<string> types, list<string> vars, string rtype, Body* body,Exp* e);
   int accept(Visitor* v);
   void accept(ImpValueVisitor* v);
   void accept(TypeVisitor* v);

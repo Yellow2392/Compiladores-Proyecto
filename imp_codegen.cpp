@@ -222,31 +222,29 @@ void ImpCodeGen::visit(ReturnStatement* s) {
 }
 
 void ImpCodeGen::visit(ForStatement* s) {
-    string l1 = next_label();  
-    string l2 = next_label(); 
+    string l1 = next_label(); 
+    string l2 = next_label();  
 
-    //reserva espacio para el contador 
-    codegen(nolabel, "alloc", 1);
-    current_dir++;
+    //current_dir++;
+    VarEntry iter_entry;
+    iter_entry.dir = -1;
+    iter_entry.is_global = false; 
+    direcciones.add_var(s->id, iter_entry); 
 
-    //inicializa el contador con el valor de start
     s->start->accept(this);
-    codegen(nolabel, "storer", current_dir);
-
+    codegen(nolabel, "storer", iter_entry.dir); 
     codegen(l1, "skip");
 
-    codegen(nolabel, "loadr", current_dir); 
+    codegen(nolabel, "loadr", iter_entry.dir);
     s->end->accept(this); 
-    codegen(nolabel, "sub"); 
-    codegen(nolabel, "jmpn", l2);           
-
+    codegen(nolabel, "le");
+    codegen(nolabel, "jmpz", l2);
     s->b->accept(this);
 
-    codegen(nolabel, "loadr", current_dir); // carga el incremento en 1
-    codegen(nolabel, "push", 1);  
-    codegen(nolabel, "add");  
-    codegen(nolabel, "storer", current_dir); 
-
+    codegen(nolabel, "loadr", iter_entry.dir);
+    codegen(nolabel, "push", 1);
+    codegen(nolabel, "add");
+    codegen(nolabel, "storer", iter_entry.dir);
     codegen(nolabel, "goto", l1);
 
     codegen(l2, "skip");

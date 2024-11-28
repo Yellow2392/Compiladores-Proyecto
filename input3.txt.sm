@@ -10,22 +10,21 @@ enter 5
 alloc 1
 push  1
 storer 1
-alloc 1
 push  0
-storer 2
+storer -1
 L0: skip
-loadr 2
+loadr -1
 push  9
-sub
-jmpn L1
+le
+jmpz L1
 loadr 1
-load -991954720
+loadr -1
 add
 storer 1
-loadr 2
+loadr -1
 push 1
 add
-storer 2
+storer -1
 goto L0
 L1: skip
 loadr 1

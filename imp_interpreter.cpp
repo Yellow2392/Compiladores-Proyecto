@@ -334,7 +334,7 @@ void ImpInterpreter::visit(ForStatement* s) {
     env.add_var(s->id, start);
 
     int a = start.int_value;
-    while(a<end.int_value){
+    while(a<=end.int_value){
         s->b ->accept(this);
         a += 1;
         start.int_value = a;
