@@ -310,9 +310,9 @@ void ImpInterpreter::visit(DoWhileStatement* s) {
         cout << "Type error en WHILE: esperaba bool en condicional" << endl;
         exit(0);
     }
-    while(s->condition->accept(this).bool_value){
+    do {
         s->b->accept(this);
-    }
+    } while(s->condition->accept(this).bool_value);
 }
 
 void ImpInterpreter::visit(ReturnStatement* s) {
