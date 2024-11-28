@@ -1,0 +1,42 @@
+start: skip
+enter 0
+alloc 0
+mark
+pusha Lmain
+call
+halt
+Lfactorial: skip
+enter 3
+alloc 0
+loadr -3
+push  1
+eq
+jmpz L0
+push  1
+storer -4
+return 4
+goto L1
+L0: skip
+alloc 1
+loadr -3
+push  1
+sub
+mark
+pusha Lfactorial
+call
+loadr -3
+mul
+storer -4
+return 4
+L1: skip
+Lmain: skip
+enter 3
+alloc 1
+push  5
+storer 1
+alloc 1
+loadr 1
+mark
+pusha Lfactorial
+call
+print

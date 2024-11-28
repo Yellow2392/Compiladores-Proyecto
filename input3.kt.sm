@@ -6,10 +6,12 @@ pusha Lmain
 call
 halt
 Lmain: skip
-enter 5
-alloc 1
+enter 6
+alloc 2
 push  1
 storer 1
+push  5
+storer 2
 push  0
 storer -1
 L0: skip
@@ -28,4 +30,6 @@ storer -1
 goto L0
 L1: skip
 loadr 1
+print
+loadr -1
 print
