@@ -219,9 +219,7 @@ FunDec* Parser::parseFunDec() {
         exit(1);
     }
     body = parseBody();
-    cout<<previous->text<<endl;
     if (!match(Token::LLD)){
-        cout<<previous->text<<endl;
         cout << "Error: se esperaba '}' al final de la declaración." << endl;
         exit(1);
     }

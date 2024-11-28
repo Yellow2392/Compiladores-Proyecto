@@ -8,7 +8,7 @@ fun main() {
     z = 1000000;
     x = 20;
 
-    println(x)
-    println(y)
+    println(x);
+    println(y);
     println(z)
 }
